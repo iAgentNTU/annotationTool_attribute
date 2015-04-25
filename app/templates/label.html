@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}AnnotationTool_test{% endblock %}
+
+{% block logInOut_content %}
+
+{% endblock %}
+{% block userName %}
+{% if userName %}{{ userName }}{% else %}{% endif %}
+{% endblock %}
+
+{% block page_content %}
+
+	<script src="{{ url_for('static', filename='label.js') }}"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='label.css') }}">
+	<div class="page-header" align="center">
+		<div id="picturearea" align="center">
+			<h2 align="center">請判斷下圖為何種活動？</h2>
+    			<div id="picframe" align="center" style="width: 80%">
+				<img id="pic" style="width: 80%; height: 80%">
+			</div>
+    			<h5 id="time" align="center"></h5><br>
+			<div id="upper" class="row"></div>
+			<div id="lower">
+				<h4 align="left" >請描述您選擇該活動的原因 (請用中文作答)</h4>
+                <textarea id = "reason" value="None" placeholder = "請說明您是依據什麼標準來決定該活動？" rows="4" cols="50" style="margin: 0px; width: 550px; height: 200px;"></textarea>
+				<!--
+				<div class="choice long" value="Others" onclick="light(this)">
+					<div class="floater"></div>
+					<div id="word1" class="sword">Others</div>
+				</div>
+				-->
+			</div>
+			
+			<div id="open">
+				<div id="lastinner" class="innerchoice">
+					<!--
+					<div id="form1" class="input-group input-group-lg">
+						<input id="labelinput" type="text" class="form-control" placeholder="What's going on here...">
+				    </div>
+				    -->
+			   </div>
+			</div>
+			
+			<div id="submit">
+				<button id="next" class="btn btn-primary btn-lg" value="Others" onclick="record()">
+					Next
+				</button>
+			</div>
+		</div>
+	</div>
+	<script>
+		buildup();
+                setpic("{{ pic }}",{{ idx }},{{ ttl }});	
+	</script>
+
+{% endblock %}
