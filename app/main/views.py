@@ -16,7 +16,7 @@ def index():
 @main.route('/label', methods=['GET'])
 def label():
     try:
-        pic, idx, ttl = getpic(session.get('id'))
+        pic, idx, ttl, ques = getpic(session.get('id'))
     except IndexError:
         session.clear()
         form = LoginForm()
@@ -26,20 +26,25 @@ def label():
         session.clear()
         return render_template('end.html')
     print 'start by', pic
-    return render_template('label.html', pic=pic, idx=idx, ttl=ttl)
+    
+    userid = session.get('id')[0]
+    user = User.query.filter_by(id=userid)[0]
+    quesid = Questions.query.filter_by(id=user.question)[0]
+    question = quesid.statement
+    return render_template('label.html', pic=pic, idx=idx, ttl=ttl, question=question)
 
 
 @main.route('/newpic', methods=['GET'])
 def newpic():
-    pic, idx, ttl = getpic(session.get('id'))
+    pic, idx, ttl, ques = getpic(session.get('id'))
     if pic is None:
         return render_template('end.html')
-    print 'new', pic
-    return jsonify({'pic': pic, 'idx': idx, 'ttl': ttl})
+    print 'new', pic, '##', ques
+    return jsonify({'pic': pic, 'idx': idx, 'ttl': ttl, 'ques': ques})
 
 
-@main.route('/record/<pictureNum>/<label>/<duration>/<reason>', methods=['POST'])
-def data(pictureNum, label, duration, reason):
+@main.route('/record/<pictureNum>/<duration>/<answer>', methods=['POST'])
+def data(pictureNum, duration, answer):
     # session['id'] = random.randint(0, 50)
     print type(pictureNum), len(pictureNum)
     if len(pictureNum) < 13:
@@ -48,14 +53,13 @@ def data(pictureNum, label, duration, reason):
 
     now = datetime.now()
     labelTime = now.strftime("%Y%m%d-%H%M")
-    value = 412
-    attribute = 'pilot'
     
     userid = session.get('id')[0]
     user = User.query.filter_by(id=userid)[0]
+    question = user.question
     user.progress += 1
-    data = Data(labelTime=labelTime, attribute=attribute, value=value,
-                pictureNum=pictureNum, userid=userid, label=label, duration=duration, reason=reason)
+    data = Data(labelTime=labelTime, question=question,
+                pictureNum=pictureNum, userid=userid, duration=duration, answer=answer)
     db.session.add(data)
     db.session.commit()
 

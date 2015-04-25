@@ -4,26 +4,22 @@ from . import db, login_manager
 
 
 class Data(db.Model):
-    __tablename__ = 'data_800'
+    __tablename__ = 'data_attribute'
     labelTime = db.Column(db.String(256))
-    attribute = db.Column(db.String(256))
-    value = db.Column(db.Integer(10))
+    question = db.Column(db.Integer(10))
     pictureNum = db.Column(db.String(256))
     userid = db.Column(db.Integer(10))
-    label = db.Column(db.String(256))
     duration = db.Column(db.Integer(10))
-    reason = db.Column(db.String(256))
+    answer = db.Column(db.String(256))
     id = db.Column(db.Integer(10), primary_key=True, autoincrement=True)
 
-    def __init__(self, labelTime, attribute, value, pictureNum, userid, label, duration, reason):
+    def __init__(self, labelTime, question, pictureNum, userid, duration, answer):
         self.labelTime = labelTime
-        self.attribute = attribute
-        self.value = value
+        self.question = question
         self.pictureNum = pictureNum
         self.userid = userid
-        self.label = label
         self.duration = duration
-        self.reason = reason
+        self.answer = answer
 
     def __repr__(self):
         return '<Share %r>' % self.labelTime
@@ -35,8 +31,14 @@ class Pictures(db.Model):
     pic = db.Column(db.String(20))
 
 
+class Questions(db.Model):
+    __tablename__ = 'question'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    statement = db.Column(db.String(256))
+
+
 class User(UserMixin, db.Model):
-    __tablename__ = 'users_800'
+    __tablename__ = 'user_attribute'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
@@ -47,6 +49,7 @@ class User(UserMixin, db.Model):
     progress = db.Column(db.Integer(11))
     total = db.Column(db.Integer(11))
     start = db.Column(db.Integer(11))
+    question = db.Column(db.Integer(11))
 
     @property
     def password(self):
