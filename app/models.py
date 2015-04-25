@@ -49,7 +49,7 @@ class User(UserMixin, db.Model):
     progress = db.Column(db.Integer(11))
     total = db.Column(db.Integer(11))
     start = db.Column(db.Integer(11))
-    question = db.Column(db.Integer(11))
+    # question = db.Column(db.Integer(11))
 
     @property
     def password(self):

@@ -48,8 +48,7 @@ def register():
                 password=form.password.data,
                 progress=0,
                 start=0,
-                total=1000,
-                question=1)
+                total=1000)
     db.session.add(user)
     db.session.commit()
     flash('You can now login.')
