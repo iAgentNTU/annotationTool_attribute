@@ -39,11 +39,10 @@ def getpic(userid):
     picNum = (progress+start+1) % 800
     #if progress % 100 == 0:
         #user.question += 1
-    quesNum = progress / 100 + 1
-    question = Questions.query.filter_by(id=quesNum)[0].statement
-    print '##', question, '##', type(question)
     if progress < total:
         nextpic = Pictures.query.filter_by(id=picNum)[0].pic
+        quesNum = progress / 100 + 1
+        question = Questions.query.filter_by(id=quesNum)[0].statement
         return nextpic, progress+1, total, question
     else:
         return None, None, None, None
