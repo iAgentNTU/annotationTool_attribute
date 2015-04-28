@@ -12,7 +12,6 @@
 
 {% block page_content %}
 
-	<script src="{{ url_for('static', filename='label.js') }}"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<link rel="stylesheet" href="{{ url_for('static', filename='label.css') }}">
 	<div class="page-header" align="center">
@@ -49,6 +48,7 @@
 			</div>
 		</div>
 	</div>
+	<script src="{{ url_for('static', filename='label.js') }}"></script>
 	<script>
 		//buildup();
                 setpic("{{ pic }}",{{ idx }},{{ ttl }}, "{{ question }}");	

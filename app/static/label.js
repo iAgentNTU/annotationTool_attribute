@@ -3,6 +3,7 @@
 var reason = 'None';
 var category = ['Meeting', 'Lecture', 'Study', 'Empty'];
 var expression = ['開會', '上課', '自習/休閒', '無活動'];
+var initial = false;
 const GENERAL = '#33FFFF';
 const CHOSEN = '#91C7FF';
 
@@ -77,7 +78,7 @@ function record(){
 	}
 	*/
 	if(reason == 'None' || reason == ""){
-		alert('請填寫判斷的依據');
+		alert('請填寫答案');
 		return;
 	}
 	var timediff = new Date().getTime() - timestamp;
@@ -104,6 +105,16 @@ function setpic(newpic, newidx, ttlidx, question){
 	picObj.src = "http://disa.csie.ntu.edu.tw/~janetyc/data/"+newpic.substring(0,8)+"/image_"+newpic+".jpg";
 	document.getElementById('time').innerHTML = show(newpic, newidx, ttlidx);
 	timestamp = new Date().getTime();
+    document.getElementById("reason").focus();
+    if (!initial) {
+        initial = true;
+        document.getElementById("reason").addEventListener('keypress', function (e) {
+            var key = e.which || e.keyCode;
+            if (key === 13) { // 13 is enter
+            record();
+            }
+        });
+    }
 	/*
 	picObj.onerror = function(){ 
 		$.getJSON('/newpic', function(response){
