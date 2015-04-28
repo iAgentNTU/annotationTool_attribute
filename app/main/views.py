@@ -15,11 +15,16 @@ def index():
 
 @main.route('/label', methods=['GET'])
 def label():
+    print "enter main.label"
     try:
+        print "enter main.label try"
+        print session.get('id')
+        print getpic(session.get('id'))
         pic, idx, ttl, ques = getpic(session.get('id'))
     except IndexError:
         session.clear()
         form = LoginForm()
+        print "enter main.label - except"
         return redirect(url_for('auth.login'))
 
     if pic is None:

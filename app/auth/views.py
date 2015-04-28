@@ -18,8 +18,10 @@ def login():
     user = User.query.filter_by(email=form.email.data).first()
     if user is None or not user.verify_password(form.password.data):
         flash('Invalid username or password.')
+        print "not pass"
         return render_template('auth/login.html', form=form)
 
+    print "already pass"
     login_user(user, form.remember_me.data)
     sessionid = db.session.query(User.id).\
         filter_by(email=form.email.data).one()
