@@ -110,6 +110,7 @@ function setpic(newpic, newidx, ttlidx, question){
 	picObj = document.getElementById('pic');
 	picObj.setAttribute("value", newpic);
 	picObj.src = "http://disa.csie.ntu.edu.tw/~janetyc/data/"+newpic.substring(0,8)+"/image_"+newpic+".jpg";
+	while(!picObj.complete) ;
 	document.getElementById('time').innerHTML = show(newpic, newidx, ttlidx);
 	if(newidx%100 == 1 && newidx != 1)
 		alert('Congrats~~ Please answer the new question');
