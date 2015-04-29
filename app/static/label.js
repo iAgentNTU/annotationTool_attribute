@@ -62,6 +62,7 @@ function refreshchoice(){
 // main part
 
 var timestamp;
+var post_lock = false;
 
 function replace(page){
 	document.write(page);
@@ -83,12 +84,18 @@ function record(){
 	}
 	var timediff = new Date().getTime() - timestamp;
 	var pic = document.getElementById('pic');
-	$.post("/record/"+pic.getAttribute('value')+"/"+timediff+"/"+reason, function(response){
-		//console.log(response);
-		//console.log(response.pic);
-		if(typeof(response) == 'string') replace(response);
-		setpic(response.pic, response.idx, response.ttl, response.ques);
-	});
+	if(post_lock == false){
+		post_lock = true;
+		$.post("/record/"+pic.getAttribute('value')+"/"+timediff+"/"+reason, function(response){
+			//console.log(response);
+			//console.log(response.pic);
+			if(typeof(response) == 'string') replace(response);
+			setpic(response.pic, response.idx, response.ttl, response.ques);
+			post_lock = false;
+		});
+	} else {
+		alert('Please answer to the new picture.');
+	}
 	refreshchoice();
 }
 
@@ -107,16 +114,17 @@ function setpic(newpic, newidx, ttlidx, question){
 	if(newidx%100 == 1 && newidx != 1)
 		alert('Congrats~~ Please answer the new question');
 	timestamp = new Date().getTime();
-    document.getElementById("reason").focus();
-    if (!initial) {
-        initial = true;
-        document.getElementById("reason").addEventListener('keypress', function (e) {
-            var key = e.which || e.keyCode;
-            if (key === 13) { // 13 is enter
-            record();
-            }
-        });
-    }
+	
+	document.getElementById("reason").focus();
+	if (!initial) {
+		initial = true;
+		document.getElementById("reason").addEventListener('keypress', function (e) {
+			var key = e.which || e.keyCode;
+			if (key === 13) { // 13 is enter
+				record();
+			}
+		});
+	}
 	/*
 	picObj.onerror = function(){ 
 		$.getJSON('/newpic', function(response){
