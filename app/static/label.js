@@ -104,6 +104,8 @@ function setpic(newpic, newidx, ttlidx, question){
 	picObj.setAttribute("value", newpic);
 	picObj.src = "http://disa.csie.ntu.edu.tw/~janetyc/data/"+newpic.substring(0,8)+"/image_"+newpic+".jpg";
 	document.getElementById('time').innerHTML = show(newpic, newidx, ttlidx);
+	if(newidx%100 == 1 && newidx != 1)
+		alert('Congrats~~ Please answer the new question');
 	timestamp = new Date().getTime();
     document.getElementById("reason").focus();
     if (!initial) {
